@@ -44,4 +44,6 @@ We include two properties files
 Unit test are provided on the test directory
 
 ## curl Commands
-A postman collection is provided 
+A postman collection is provided
+
+    -src/main/resources/Rebboot.postman_collection.json

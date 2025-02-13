@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "a97f61dc-4c53-4bd8-8e2e-994c56ae2f8c",
+		"name": "Rebboot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17531356"
+	},
+	"item": [
+		{
+			"name": "create Employee with errors",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/createEmployee",
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'http://localhost:8080/createEmployee' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]'"
+			},
+			"response": []
+		},
+		{
+			"name": "create Employee with exception",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/createEmployee",
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'http://localhost:8080/createEmployee' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]'"
+			},
+			"response": []
+		},
+		{
+			"name": "create Employee status 200",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/createEmployee",
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'http://localhost:8080/createEmployee' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '[\r\n  {\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"6\"\r\n  }\r\n]'"
+			},
+			"response": []
+		},
+		{
+			"name": "/getAllEmployees",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": "http://localhost:8080/getAllEmployees",
+				"description": "Generated from cURL: curl -X 'GET' \\\r\n  'http://localhost:8080/getAllEmployees' \\\r\n  -H 'accept: */*'"
+			},
+			"response": []
+		},
+		{
+			"name": "/delete id not found",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": "http://localhost:8080/delete/100",
+				"description": "Generated from cURL: curl -X 'DELETE' \\\r\n  'http://localhost:8080/delete/100' \\\r\n  -H 'accept: */*'"
+			},
+			"response": []
+		},
+		{
+			"name": "/delete id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": "http://localhost:8080/delete/100",
+				"description": "Generated from cURL: curl -X 'DELETE' \\\r\n  'http://localhost:8080/delete/100' \\\r\n  -H 'accept: */*'"
+			},
+			"response": []
+		},
+		{
+			"name": "/delete id 0",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": "http://localhost:8080/delete/100",
+				"description": "Generated from cURL: curl -X 'DELETE' \\\r\n  'http://localhost:8080/delete/100' \\\r\n  -H 'accept: */*'"
+			},
+			"response": []
+		},
+		{
+			"name": "/updateEmployee/0",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/updateEmployee/0",
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/updateEmployee/0' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "/updateEmployee/16568 not found",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/updateEmployee/16568",
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/updateEmployee/16568' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "/updateEmployee/1 status 200",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/updateEmployee/16568",
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/updateEmployee/16568' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"employeeName\": \"Felipe\",\r\n    \"employeeMiddleName\": null,\r\n    \"employeeLastName\": \"Cruz\",\r\n    \"employeeMotherSurName\": \"Fabian\",\r\n    \"employeeAge\": 37,\r\n    \"employeeGender\": \"H\",\r\n    \"employeeBirthDate\": \"1987-09-11\",\r\n    \"position\": \"5\"\r\n}'"
+			},
+			"response": []
+		}
+	]
+}
