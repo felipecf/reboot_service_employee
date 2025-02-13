@@ -2,10 +2,7 @@ package com.reboot.employee_service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.reboot.employee_service.util.EmployeePosition;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -27,10 +24,11 @@ public class Employee {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
+    @Column(name = "birthDate")
     private Date birthDate;
-    private EmployeePosition position;
+    private String position;
 
-    public Employee(Integer id, String name, String middleName, String lastName, String motherSurName, Integer age, String gender, Date birthDate, EmployeePosition position) {
+    public Employee(Integer id, String name, String middleName, String lastName, String motherSurName, Integer age, String gender, Date birthDate, String position) {
         this.id = id;
         this.name = name;
         this.middleName = middleName;
@@ -108,11 +106,11 @@ public class Employee {
         this.birthDate = birthDate;
     }
 
-    public EmployeePosition getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(EmployeePosition position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 }

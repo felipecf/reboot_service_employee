@@ -8,8 +8,14 @@ import com.reboot.employee_service.model.Employee;
 import com.reboot.employee_service.repository.EmployeeRepository;
 import com.reboot.employee_service.util.MessageConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +32,31 @@ public class EmployeeService {
 
     private EmployeeMapper employeeMapper = new EmployeeMapperImpl();
 
-    public List<EmployeeDTO> getAllEmployee() {
-        List<Employee> employees = employeeRepository.findAll();
+    /**
+     * Retrieve all the employees on the DB , it uses pagination to retrieve chunks of 10 rows
+     * @param int page
+     * */
+    public Page<EmployeeDTO> getAllEmployee(int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+
+        Page<Employee> employeePage = employeeRepository.findAll(pageRequest);
+
+        //List<Employee> employees = employeeRepository.findAll();
         List<EmployeeDTO> employeeDTOs = new ArrayList<>();
 
+
+        if(employeePage.getTotalElements() > 0 ){
+
+            for (Employee employee : employeePage) {
+                employeeDTOs.add(employeeMapper.employeeToEmployeeDTO(employee));
+            }
+            return new PageImpl<EmployeeDTO>(employeeDTOs, pageRequest, employeePage.getTotalElements());
+        }else{
+            throw new NotFoundException(MessageConstant.EMPLOYEES_NOT_FOUND);
+        }
+
+        /*
         if (employees.isEmpty()) {
             throw new NotFoundException(MessageConstant.EMPLOYEES_NOT_FOUND);
         } else {
@@ -38,6 +65,8 @@ public class EmployeeService {
             }
             return employeeDTOs;
         }
+
+         */
     }
 
     public EmployeeDTO deleteEmployee(Integer id) {

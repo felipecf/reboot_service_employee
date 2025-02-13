@@ -1,23 +1,19 @@
 package com.reboot.employee_service.exception;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ValidationErrorException extends RuntimeException{
 
-    private List<String> messages = new ArrayList<>();
+    private Map<Integer,List<String>> messages = new HashMap<>();
 
-    public List<String> getMessages() {
+    public Map<Integer,List<String>> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
-
-    public ValidationErrorException() {}
-
-    public ValidationErrorException(List<String> messages) {
+    public ValidationErrorException(Map<Integer,List<String>> messages) {
         this.messages = messages;
     }
 

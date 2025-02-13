@@ -34,27 +34,24 @@ class EmployeeControllerTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    // Test for GET /employee/getAllEmployees
     @Test
     public void testGetAllEmployees() throws Exception {
+        int page = 0, size = 10;
+
+
+
         List<EmployeeDTO> employees = Arrays.asList(
                 new EmployeeDTO(1, "John Doe","", "","",45,"H", "1987-11-09", EmployeePosition.CEO),
                 new EmployeeDTO(2, "Jane Smith", "","","",45,"H", "1987-11-09", EmployeePosition.CEO)
         );
-        when(employeeService.getAllEmployee()).thenReturn(employees);
-
-        // Example headers to be logged by the controller
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Auth", "Bearer token");
+        when(employeeService.getAllEmployee(page,size)).thenReturn(employees);
 
         mockMvc.perform(get("/employee/getAllEmployees")
-                        .header("Auth", "Bearer token")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(employees.size()));
     }
 
-    // Test for DELETE /employee/delete/{id} with an invalid id (<= 0)
     @Test
     public void testDeleteEmployee_InvalidId() throws Exception {
         mockMvc.perform(delete("/employee/deleteEmployee/{id}", 0)
@@ -63,7 +60,6 @@ class EmployeeControllerTest {
                 .andExpect(content().string("Employee ID should be greater than 0"));
     }
 
-    // Test for DELETE /employee/delete/{id} with a valid id
     @Test
     public void testDeleteEmployee_ValidId() throws Exception {
         int id = 1;
@@ -74,7 +70,6 @@ class EmployeeControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // Test for PUT /employee/updateEmployee/{id} with an invalid id (<= 0)
     @Test
     public void testUpdateEmployee_InvalidId() throws Exception {
         EmployeeDTO employeeDTO = new EmployeeDTO(1, "John Dox","", "","",45,"H", "1987-11-09", EmployeePosition.CEO);
@@ -86,7 +81,6 @@ class EmployeeControllerTest {
                 .andExpect(content().string("Employee ID should be greater than 0"));
     }
 
-    // Test for PUT /employee/updateEmployee/{id} with a valid id
     @Test
     public void testUpdateEmployee_ValidId() throws Exception {
         int id = 1;
@@ -101,7 +95,6 @@ class EmployeeControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // Test for POST /employee/createEmployee with an empty list
     @Test
     public void testCreateEmployee_EmptyList() throws Exception {
         List<EmployeeDTO> emptyList = Collections.emptyList();
@@ -114,10 +107,8 @@ class EmployeeControllerTest {
                 .andExpect(content().string("You need to provide at least one employee to be stored"));
     }
 
-    // Test for POST /employee/createEmployee with valid input
     @Test
     public void testCreateEmployee_ValidList() throws Exception {
-        // Create a list with one EmployeeDTO for creation.
         EmployeeDTO emp1 = new EmployeeDTO(1, "Alice","", "Cruz","Camarillo",45,"H", "1987-11-09", EmployeePosition.CEO);
         EmployeeDTO emp2 = new EmployeeDTO(3, "John","", "Doe","Hilton",45,"H", "1987-11-09", EmployeePosition.CEO);
         List<EmployeeDTO> createdList = Arrays.asList(emp1, emp2);
@@ -132,7 +123,6 @@ class EmployeeControllerTest {
 
     @Test
     public void testCreateEmployee_ErrorList() throws Exception {
-        // Create a list with one EmployeeDTO for creation.
         EmployeeDTO emp1 = new EmployeeDTO(1,"","", "Cruz","Camarillo",45,"H", "1987-11-09", EmployeePosition.CEO);
 
         List<EmployeeDTO> createdList = List.of(emp1);

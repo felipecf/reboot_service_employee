@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 
 @SpringBootTest
 public class EmployeeServiceTest {
@@ -39,18 +40,12 @@ public class EmployeeServiceTest {
     @InjectMocks
     private EmployeeService employeeService;
 
-    /*@BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }*/
-
-    // Test para getAllEmployee() cuando existen registros
     @Test
     public void testGetAllEmployee_Success() {
-        // Se crean dos empleados y sus respectivos DTOs
         Employee emp1 = new Employee();
         Employee emp2 = new Employee();
         List<Employee> employees = Arrays.asList(emp1, emp2);
+        int page = 0, size = 10;
 
         EmployeeDTO dto1 = new EmployeeDTO();
         EmployeeDTO dto2 = new EmployeeDTO();
@@ -59,26 +54,24 @@ public class EmployeeServiceTest {
         when(employeeMapper.employeeToEmployeeDTO(emp1)).thenReturn(dto1);
         when(employeeMapper.employeeToEmployeeDTO(emp2)).thenReturn(dto2);
 
-        List<EmployeeDTO> result = employeeService.getAllEmployee();
+        Page<EmployeeDTO> result = employeeService.getAllEmployee(page,size);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
-    // Test para getAllEmployee() cuando la lista está vacía y debe lanzar NotFoundException
     @Test
     public void testGetAllEmployee_NotFound() {
+        int page = 0, size = 10;
         when(employeeRepository.findAll()).thenReturn(Collections.emptyList());
 
         NotFoundException ex = assertThrows(NotFoundException.class, () -> {
-            employeeService.getAllEmployee();
+            employeeService.getAllEmployee(page,size);
         });
 
-        // Opcional: verificar que el mensaje de error sea el esperado
         assertTrue(ex.getMessage().contains(MessageConstant.EMPLOYEES_NOT_FOUND));
     }
 
-    // Test para deleteEmployee() con id válido
     @Test
     public void testDeleteEmployee_Success() {
         int id = 1;
@@ -92,11 +85,9 @@ public class EmployeeServiceTest {
 
         assertNotNull(result);
         assertEquals(dto, result);
-        // Verificamos que se haya llamado a delete() del repositorio
         verify(employeeRepository).delete(emp);
     }
 
-    // Test para deleteEmployee() con id inválido (no existe)
     @Test
     public void testDeleteEmployee_NotFound() {
         int id = 99;
@@ -109,23 +100,18 @@ public class EmployeeServiceTest {
         assertTrue(ex.getMessage().contains(String.format(MessageConstant.EMPLOYEE_ID_NOT_FOUND, id)));
     }
 
-    // Test para createEmployee() con lista válida de DTOs
     @Test
     public void testCreateEmployee_Success() {
-        // Suponemos que se recibe una lista con un EmployeeDTO
         EmployeeDTO inputDTO = new EmployeeDTO();
         List<EmployeeDTO> inputList = new ArrayList<>();
         inputList.add(inputDTO);
 
-        // Al mapear, se obtiene un objeto Employee
         Employee emp = new Employee();
         when(employeeMapper.employeeDTOToEmployee(inputDTO)).thenReturn(emp);
 
-        // Simulamos que saveAll devuelve la lista de empleados guardados
         List<Employee> savedEmployees = Arrays.asList(emp);
         when(employeeRepository.saveAll(any(List.class))).thenReturn(savedEmployees);
 
-        // Mappear el empleado guardado de vuelta a DTO
         EmployeeDTO outputDTO = new EmployeeDTO();
         when(employeeMapper.employeeToEmployeeDTO(emp)).thenReturn(outputDTO);
 
@@ -144,8 +130,8 @@ public class EmployeeServiceTest {
         Date date = sdf.parse("1987-09-11");
 
         EmployeeDTO inputDTO = new EmployeeDTO(1, "Alice","", "Cruz","Camarillo",45,"H", "1987-09-11" , EmployeePosition.CEO);
-        Employee existingEmployee = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , EmployeePosition.CEO);
-        Employee updatedEmployee = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , EmployeePosition.CEO);
+        Employee existingEmployee = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , "CEO");
+        Employee updatedEmployee = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , "CEO");
         EmployeeDTO outputDTO = new EmployeeDTO(1, "Alice","", "Cruz","Camarillo",45,"H", "1987-09-11" , EmployeePosition.CEO);
 
         when(employeeRepository.findById(id)).thenReturn(Optional.of(existingEmployee));
@@ -159,7 +145,6 @@ public class EmployeeServiceTest {
         assertEquals(outputDTO, result);
     }
 
-    // Test para updateEmployee() con id inválido (empleado no encontrado)
     @Test
     public void testUpdateEmployee_NotFound() {
         int id = 99;
@@ -173,13 +158,12 @@ public class EmployeeServiceTest {
         assertTrue(ex.getMessage().contains(String.format(MessageConstant.EMPLOYEE_ID_NOT_FOUND, id)));
     }
 
-    // Test para getEmployeeById() con id válido
     @Test
     public void testGetEmployeeById_Success() throws ParseException {
         int id = 1;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sdf.parse("1987-09-11");
-        Employee emp = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , EmployeePosition.CEO);
+        Employee emp = new Employee(1, "Alice","", "Cruz","Camarillo",45,"H", date , EmployeePosition.CEO.name());
         EmployeeDTO dto = new EmployeeDTO(1, "Alice","", "Cruz","Camarillo",45,"H", "1987-09-11", EmployeePosition.CEO);
 
         when(this.employeeRepository.findById(anyInt())).thenReturn(Optional.of(emp));
@@ -192,7 +176,6 @@ public class EmployeeServiceTest {
         assertEquals(dto, result);
     }
 
-    // Test para getEmployeeById() con id inválido (no encontrado)
     @Test
     public void testGetEmployeeById_NotFound() {
         int id = 99;

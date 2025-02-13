@@ -3,6 +3,7 @@ package com.reboot.employee_service.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.reboot.employee_service.util.EmployeePosition;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ public class EmployeeDTO {
 
     @Schema(example = "1999-11-21", description = "Date of birth of the employee" , required = true)
     @JsonFormat(pattern="yyyy-MM-dd")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
     private String employeeBirthDate;
 
     @Schema(example = "INTERN or 7", description = "Employee position, you can use the FIELD or the ID" , required = true)

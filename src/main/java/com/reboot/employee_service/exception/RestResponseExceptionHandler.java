@@ -43,6 +43,14 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
         return handleExceptionInternal(ex,String.format(ERRORS, mapper.writeValueAsString(ex.getMessage())), getHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
+    @ExceptionHandler({CommonException.class})
+    protected ResponseEntity<Object> handlerCommondException(CommonException ex, WebRequest request) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        log.error(ex.getMessage());
+
+        return handleExceptionInternal(ex,String.format(ERRORS, mapper.writeValueAsString(ex.getMessage())), getHeaders(), ex.getStatus(), request);
+    }
+
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
