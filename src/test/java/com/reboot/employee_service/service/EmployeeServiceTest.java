@@ -23,7 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 
 @SpringBootTest
 public class EmployeeServiceTest {
@@ -50,7 +50,9 @@ public class EmployeeServiceTest {
         EmployeeDTO dto1 = new EmployeeDTO();
         EmployeeDTO dto2 = new EmployeeDTO();
 
-        when(employeeRepository.findAll()).thenReturn(employees);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+
+        when(employeeRepository.findAll(pageRequest)).thenReturn(new PageImpl<>(employees));
         when(employeeMapper.employeeToEmployeeDTO(emp1)).thenReturn(dto1);
         when(employeeMapper.employeeToEmployeeDTO(emp2)).thenReturn(dto2);
 
@@ -63,7 +65,11 @@ public class EmployeeServiceTest {
     @Test
     public void testGetAllEmployee_NotFound() {
         int page = 0, size = 10;
-        when(employeeRepository.findAll()).thenReturn(Collections.emptyList());
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        Employee employee = new Employee();
+
+        when(employeeRepository.findAll(pageRequest)).thenReturn(new PageImpl<>(Collections.emptyList()));
 
         NotFoundException ex = assertThrows(NotFoundException.class, () -> {
             employeeService.getAllEmployee(page,size);

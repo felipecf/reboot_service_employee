@@ -51,9 +51,9 @@ public class EmployeeController {
         log.info(mapper.writeValueAsString(headersMap));
 
 
-        Page<EmployeeDTO> employeeList = employeeService.getAllEmployee(page,size);
+        Page<EmployeeDTO> employeeDTOPage = employeeService.getAllEmployee(page,size);
 
-        return new ResponseEntity<>(employeeList, HttpStatus.OK);
+        return new ResponseEntity<>(employeeDTOPage, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteEmployee/{id}")

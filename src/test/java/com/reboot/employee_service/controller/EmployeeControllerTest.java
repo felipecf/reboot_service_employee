@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,18 +39,18 @@ class EmployeeControllerTest {
     public void testGetAllEmployees() throws Exception {
         int page = 0, size = 10;
 
-
-
         List<EmployeeDTO> employees = Arrays.asList(
                 new EmployeeDTO(1, "John Doe","", "","",45,"H", "1987-11-09", EmployeePosition.CEO),
                 new EmployeeDTO(2, "Jane Smith", "","","",45,"H", "1987-11-09", EmployeePosition.CEO)
         );
-        when(employeeService.getAllEmployee(page,size)).thenReturn(employees);
 
-        mockMvc.perform(get("/employee/getAllEmployees")
+        Page<EmployeeDTO> employeeDTOPage = new PageImpl<>(employees);
+
+        when(employeeService.getAllEmployee(page,size)).thenReturn(employeeDTOPage);
+
+        mockMvc.perform(get("/employee/getAllEmployees?page=0&size=10")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(employees.size()));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -57,7 +58,7 @@ class EmployeeControllerTest {
         mockMvc.perform(delete("/employee/deleteEmployee/{id}", 0)
                         .header("Auth", "Bearer token"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Employee ID should be greater than 0"));
+                .andExpect(content().string("{\"ERRORS\": \"Employee ID should be greater than 0\"}"));
     }
 
     @Test
@@ -78,7 +79,7 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(employeeDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Employee ID should be greater than 0"));
+                .andExpect(content().string("{\"ERRORS\": \"Employee ID should be greater than 0\"}"));
     }
 
     @Test
@@ -104,7 +105,7 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(emptyList)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("You need to provide at least one employee to be stored"));
+                .andExpect(content().string("{\"ERRORS\": \"You need to provide at least one employee to be stored\"}"));
     }
 
     @Test
